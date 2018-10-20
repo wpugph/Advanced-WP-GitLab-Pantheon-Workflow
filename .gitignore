@@ -17,3 +17,6 @@ web/.htaccess
 
 # Composer
 /vendor
+
+.ftpconfig
+.ftpignore
