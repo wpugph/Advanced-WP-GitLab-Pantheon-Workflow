@@ -94,9 +94,9 @@ prod_deploy:
   # - scp -P 7822 -C -i /root/.ssh/idrsa -r web/app/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes
   # - rsync -avzh -e "ssh -p 7822" wordpress/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes --ignore-times
   # https://pantheon.io/docs/rsync-and-sftp/
-  export ENV=dev
+  - export ENV=dev
   # Usually dev, test, or live
-  export SITE=559216e4-889e-4d78-92f1-36e45a7318a9
+  - export SITE=559216e4-889e-4d78-92f1-36e45a7318a9
   # Site UUID from dashboard URL: https://dashboard.pantheon.io/sites/[uuid]
 
   # To Upload/Import
