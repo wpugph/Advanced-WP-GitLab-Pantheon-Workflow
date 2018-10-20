@@ -30,6 +30,7 @@ build:
   - eval $(ssh-agent -s)
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - composer update
+  - composer install
   allow_failure: true
 
 test:
@@ -58,23 +59,24 @@ prod_deploy:
     - web/wp-content/themes/node_modules
   script:
   - echo "Preparing build for deploy"
+  - ls
   - ROOTPWD=$PWD
   - echo $ROOTPWD
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - mkdir -p ~/.ssh
   - eval $(ssh-agent -s)
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - cd $ROOTPWD/wordpress/wp-content/themes/jnetics
-  - npm install -g npm@latest
-  - npm install -g gulp bower
-  - npm install
-  - bower install --allow-root
-  - gulp --production
-  - ls assets/css
+  # - cd $ROOTPWD/wordpress/wp-content/themes/jnetics
+  # - npm install -g npm@latest
+  # - npm install -g gulp bower
+  # - npm install
+  # - bower install --allow-root
+  # - gulp --production
+  # - ls assets/css
   - echo "We need to put the gulp build here and only transfer assets, option for full or partial build!!"
-  - cd $ROOTPWD
-  - ROOTPWD=$PWD
-  - echo $ROOTPWD
+  # - cd $ROOTPWD
+  # - ROOTPWD=$PWD
+  # - echo $ROOTPWD
   - touch /root/.ssh/idrsa
   - echo "$STAGING_PRIVATE_KEY" > /root/.ssh/idrsa
   - chmod 400 /root/.ssh/idrsa
