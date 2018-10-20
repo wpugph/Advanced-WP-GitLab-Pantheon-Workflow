@@ -1,0 +1,98 @@
+stages:
+  - build
+  - test
+  - deploy
+
+image: tetraweb/php
+
+before_script:
+  - apt-get update
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php');"
+  - php composer.phar install
+
+build:
+  stage: build
+  cache:
+    key: bundles
+    paths:
+    - wordpress/wp-content/themes/bower_components
+    - wordpress/wp-content/themes/node_modules
+  script:
+  - echo "Building the app"
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - mkdir -p ~/.ssh
+  - eval $(ssh-agent -s)
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  allow_failure: true
+
+test:
+  stage: test
+  cache:
+    key: bundles
+    paths:
+    - wordpress/wp-content/themes/bower_components
+    - wordpress/wp-content/themes/node_modules
+  script:
+  # - pwd
+  # - ls
+  - export PHPCS_DIR=vendor/squizlabs/php_codesniffer
+  - export SNIFFS_DIR=vendor/wp-coding-standards/wpcs
+  - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
+  - $PHPCS_DIR/bin/phpcs -i
+  - $PHPCS_DIR/bin/phpcs -p wordpress/wp-content/themes/jnetics --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
+  allow_failure: true
+
+prod_deploy:
+  stage: deploy
+  cache:
+    key: bundles
+    paths:
+    - wordpress/wp-content/themes/bower_components
+    - wordpress/wp-content/themes/node_modules
+  script:
+  - echo "Preparing build for deploy"
+  - ROOTPWD=$PWD
+  - echo $ROOTPWD
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - mkdir -p ~/.ssh
+  - eval $(ssh-agent -s)
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - cd $ROOTPWD/wordpress/wp-content/themes/jnetics
+  - npm install -g npm@latest
+  - npm install -g gulp bower
+  - npm install
+  - bower install --allow-root
+  - gulp --production
+  - ls assets/css
+  - echo "We need to put the gulp build here and only transfer assets, option for full or partial build!!"
+  - cd $ROOTPWD
+  - ROOTPWD=$PWD
+  - echo $ROOTPWD
+  - touch /root/.ssh/idrsa
+  - echo "$STAGING_PRIVATE_KEY" > /root/.ssh/idrsa
+  - chmod 400 /root/.ssh/idrsa
+  # - cat /root/.ssh/idrsa
+  - cd /root/.ssh/
+  - ls
+  - ssh-add /root/.ssh/idrsa
+  - ssh-add -l
+  # - cd $ROOTPWD
+  # - rm wordpress/wp-content/themes/jnetics/bower_components -R
+  # - rm wordpress/wp-content/themes/jnetics/node_modules -R
+  # - rm wordpress/wp-content/themes/jnetics/src -R
+  # - rm wordpress/wp-content/themes/jnetics/.editorconfig -R
+  # - rm wordpress/wp-content/themes/jnetics/gulpfile.js -R
+  # - rm wordpress/wp-content/themes/jnetics/*.json -R
+  # - scp -P 7822 -C -i /root/.ssh/idrsa -r wordpress/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes
+  # - rsync -avzh -e "ssh -p 7822" wordpress/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes --ignore-times
+  artifacts:
+    paths:
+    - wordpress/wp-content/themes/jnetics
+    expire_in: 1 week
+  environment:
+    name: production
+    url: https://jnetics.mlawebdesigns.co.uk
+  only:
+  - master
