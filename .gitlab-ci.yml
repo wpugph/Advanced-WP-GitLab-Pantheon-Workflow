@@ -21,14 +21,15 @@ build:
   cache:
     key: bundles
     paths:
-    - wordpress/wp-content/themes/bower_components
-    - wordpress/wp-content/themes/node_modules
+    - web/wp-content/themes/bower_components
+    - web/wp-content/themes/node_modules
   script:
   - echo "Building the app"
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - mkdir -p ~/.ssh
   - eval $(ssh-agent -s)
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - composer update
   allow_failure: true
 
 test:
@@ -36,8 +37,8 @@ test:
   cache:
     key: bundles
     paths:
-    - wordpress/wp-content/themes/bower_components
-    - wordpress/wp-content/themes/node_modules
+    - web/wp-content/themes/bower_components
+    - web/wp-content/themes/node_modules
   script:
   # - pwd
   # - ls
@@ -53,8 +54,8 @@ prod_deploy:
   cache:
     key: bundles
     paths:
-    - wordpress/wp-content/themes/bower_components
-    - wordpress/wp-content/themes/node_modules
+    - web/wp-content/themes/bower_components
+    - web/wp-content/themes/node_modules
   script:
   - echo "Preparing build for deploy"
   - ROOTPWD=$PWD
@@ -82,21 +83,31 @@ prod_deploy:
   - ls
   - ssh-add /root/.ssh/idrsa
   - ssh-add -l
-  # - cd $ROOTPWD
+  - cd $ROOTPWD
+  - ls
   # - rm wordpress/wp-content/themes/jnetics/bower_components -R
   # - rm wordpress/wp-content/themes/jnetics/node_modules -R
   # - rm wordpress/wp-content/themes/jnetics/src -R
   # - rm wordpress/wp-content/themes/jnetics/.editorconfig -R
   # - rm wordpress/wp-content/themes/jnetics/gulpfile.js -R
   # - rm wordpress/wp-content/themes/jnetics/*.json -R
-  # - scp -P 7822 -C -i /root/.ssh/idrsa -r wordpress/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes
+  # - scp -P 7822 -C -i /root/.ssh/idrsa -r web/app/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes
   # - rsync -avzh -e "ssh -p 7822" wordpress/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes --ignore-times
+  # https://pantheon.io/docs/rsync-and-sftp/
+  export ENV=dev
+  # Usually dev, test, or live
+  export SITE=559216e4-889e-4d78-92f1-36e45a7318a9
+  # Site UUID from dashboard URL: https://dashboard.pantheon.io/sites/[uuid]
+
+  # To Upload/Import
+  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:web/
+
   artifacts:
     paths:
-    - wordpress/wp-content/themes/jnetics
+    - web
     expire_in: 1 week
   environment:
     name: production
-    url: https://jnetics.mlawebdesigns.co.uk
+    url: http://dev-carlwpsecuritymu.pantheonsite.io/
   only:
   - master
