@@ -18,13 +18,14 @@ before_script:
   - curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
   - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
 
+
 build:
   stage: build
   cache:
     key: bundles
     paths:
-    - web/wp-content/themes/bower_components
-    - web/wp-content/themes/node_modules
+    - web
+    - app
   script:
   - echo "Building the app"
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -40,8 +41,8 @@ test:
   cache:
     key: bundles
     paths:
-    - web/wp-content/themes/bower_components
-    - web/wp-content/themes/node_modules
+    - web
+    - app
   script:
   # - pwd
   # - ls
@@ -57,8 +58,8 @@ prod_deploy:
   cache:
     key: bundles
     paths:
-    - web/wp-content/themes/bower_components
-    - web/wp-content/themes/node_modules
+    - web
+    - app
   script:
   - echo "Preparing build for deploy"
   - ls
@@ -104,7 +105,11 @@ prod_deploy:
   # Site UUID from dashboard URL: https://dashboard.pantheon.io/sites/[uuid]
 
   # To Upload/Import
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:web/
+  - terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
+  - terminus connection:set $PANTHEONSITENAME.dev sftp
+  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
+  - echo $CI_COMMIT_MESSAGE
+  - terminus env:commit --message '$CI_COMMIT_MESSAGE' --force -- $PANTHEONSITENAME.dev
 
   artifacts:
     paths:
