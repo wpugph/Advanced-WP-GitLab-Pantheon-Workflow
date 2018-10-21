@@ -6,6 +6,7 @@ stages:
 # image: tetraweb/php
 image: tonisormisson/dev-lemp
 # image: composer
+# image: php
 
 cache:
   paths:
@@ -27,6 +28,17 @@ before_script:
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
+  - echo "Preparing build for deploy"
+  - ls
+  - ROOTPWD=$PWD
+  - echo $ROOTPWD
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - mkdir -p ~/.ssh
+  - eval $(ssh-agent -s)
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - touch /root/.ssh/idrsa
+  - echo "$STAGING_PRIVATE_KEY" > /root/.ssh/idrsa
+  - chmod 400 /root/.ssh/idrsa
   - php composer.phar install
   - curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
   - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
@@ -73,14 +85,7 @@ prod_deploy:
     - web
     - app
   script:
-  - echo "Preparing build for deploy"
-  - ls
-  - ROOTPWD=$PWD
-  - echo $ROOTPWD
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
   # - cd $ROOTPWD/wordpress/wp-content/themes/jnetics
   # - npm install -g npm@latest
   # - npm install -g gulp bower
@@ -92,9 +97,7 @@ prod_deploy:
   # - cd $ROOTPWD
   # - ROOTPWD=$PWD
   # - echo $ROOTPWD
-  - touch /root/.ssh/idrsa
-  - echo "$STAGING_PRIVATE_KEY" > /root/.ssh/idrsa
-  - chmod 400 /root/.ssh/idrsa
+
   # - cat /root/.ssh/idrsa
   - cd /root/.ssh/
   - ls
