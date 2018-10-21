@@ -13,10 +13,12 @@ before_script:
   - php -v
   - cat /etc/apt/sources.list
   - apt-cache search zip
+  - apt-get install --yes zip unzip gzip
+  - apt-get install --yes zip unzip php-pclzip
   - apt-get -y update
   - apt-get -y upgrade
   - apt-get -y install git
-  - apt-get -y install unzip php7.0-zip
+  # - apt-get -y install unzip php7.0-zip
   - apt-get -y install curl
   - apt-get -y install php-zip
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
