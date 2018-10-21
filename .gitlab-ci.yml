@@ -58,7 +58,8 @@ before_script:
   - composer global require consolidation/cgr
   - PATH="$(composer config -g home)/vendor/bin:$PATH"
   - echo $PATH
-  # - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
+  - cgr --stability RC pantheon-systems/terminus 1.0.0-alpha2
+  - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
 
 build:
   stage: build
