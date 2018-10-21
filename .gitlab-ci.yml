@@ -4,7 +4,7 @@ stages:
   - deploy
 
 # image: tetraweb/php
-image: tplatform/aws-linux-httpd24-php70
+image: lynxsolutions/docker-composer-php7.1
 # image: composer
 # image: php
 
