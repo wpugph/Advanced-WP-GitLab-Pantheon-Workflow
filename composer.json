@@ -6,22 +6,19 @@
       "type": "package",
       "package": {
         "name": "pantheon-systems/wordpress",
-        "version": "4.9.1",
+        "version": "4.7.2",
         "dist": {
-          "url": "https://github.com/pantheon-systems/WordPress/archive/4.9.1.zip",
+          "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.2.zip",
           "type": "zip"
         },
         "source": {
           "url": "git@github.com:pantheon-systems/WordPress.git",
           "type": "git",
-          "reference": "4.9.1"
+          "reference": "4.7.2"
         },
         "type": "wordpress-core",
         "require": {
-          "johnpbloch/wordpress-core-installer": "^1.0.0.2"
-        },
-        "require-dev": {
-          "squizlabs/php_codesniffer": "^3.0.2"
+          "johnpbloch/wordpress-core-installer": "~0.1"
         },
         "extra": {
           "wordpress-install-dir": "web/wp"
@@ -30,6 +27,6 @@
     }
   ],
   "require": {
-    "pantheon-systems/wordpress": "^4.9.1"
+    "pantheon-systems/wordpress": "^4.7.2"
   }
 }
