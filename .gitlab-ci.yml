@@ -30,7 +30,8 @@ before_script:
   - php -r "unlink('composer-setup.php');"
   - echo "Preparing build for deploy"
   - ls
-  - ROOTPWD=$PWD
+  - pwd
+  - $ROOTPWD=PWD
   - echo $ROOTPWD
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - mkdir -p ~/.ssh
