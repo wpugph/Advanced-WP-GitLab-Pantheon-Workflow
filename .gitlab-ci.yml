@@ -57,7 +57,7 @@ build:
     - web
     - app
   script:
-  # - echo "Building the app"
+  - echo "Building the app"
   # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   # - mkdir -p ~/.ssh
   # - eval $(ssh-agent -s)
