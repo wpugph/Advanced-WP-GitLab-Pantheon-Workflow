@@ -8,10 +8,6 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/pantheon-systems/wordpress-composer"
     }
   ],
   "require": {
@@ -46,12 +42,6 @@
   },
   "extra": {
     "wordpress-install-dir": "web/wp",
-    "build-env": {
-      "install-cms": [
-        "wp core install --title={site-name} --url={site-url} --admin_user={account-name} --admin_email={account-mail} --admin_password={account-pass}",
-        "wp option update permalink_structure '/%postname%/'"
-      ]
-    },
     "installer-paths": {
       "web/wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
       "web/wp-content/themes/{$name}/": ["type:wordpress-theme"],
