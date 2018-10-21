@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de7e3ffb60778b5b0d3ed4fd08748a46",
+    "content-hash": "784f825675e5a7fcd762be0ec0a7b3ae",
     "packages": [
         {
             "name": "johnpbloch/wordpress-core-installer",
-            "version": "0.2.1",
+            "version": "1.0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core-installer.git",
-                "reference": "a04c2c383ef13aae077f36799ed2eafdebd618d2"
+                "reference": "7941acd71725710a789daabe0557429da63e7ac6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core-installer/zipball/a04c2c383ef13aae077f36799ed2eafdebd618d2",
-                "reference": "a04c2c383ef13aae077f36799ed2eafdebd618d2",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core-installer/zipball/7941acd71725710a789daabe0557429da63e7ac6",
+                "reference": "7941acd71725710a789daabe0557429da63e7ac6",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,8 @@
                 "composer/installers": "<1.0.6"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev"
+                "composer/composer": "^1.0",
+                "phpunit/phpunit": ">=4.8.35"
             },
             "type": "composer-plugin",
             "extra": {
@@ -52,24 +53,24 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-06-11T15:15:30+00:00"
+            "time": "2018-01-29T14:49:29+00:00"
         },
         {
             "name": "pantheon-systems/wordpress",
-            "version": "4.9.1",
+            "version": "4.7.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:pantheon-systems/WordPress.git",
-                "reference": "4.9.1"
+                "reference": "4.7.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/pantheon-systems/WordPress/archive/4.9.1.zip",
-                "reference": "4.9.1",
+                "url": "https://github.com/pantheon-systems/WordPress/archive/4.7.2.zip",
+                "reference": "4.7.2",
                 "shasum": null
             },
             "require": {
-                "johnpbloch/wordpress-core-installer": "~0.1"
+                "johnpbloch/wordpress-core-installer": "^1.0.0.2"
             },
             "type": "wordpress-core",
             "extra": {
