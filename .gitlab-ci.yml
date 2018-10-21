@@ -13,9 +13,9 @@ cache:
   - vendor/
 
 before_script:
-  - apt install php7.1-fpm
-  - apt install php7.1
-  - apt install php7.1-cli php7.1-xml php7.1-mysql
+  - apt -y install php7.1-fpm
+  - apt -y install php7.1
+  - apt -y install php7.1-cli php7.1-xml php7.1-mysql
   - update-alternatives --set php /usr/bin/php7.1
   - php -v
   - cat /etc/apt/sources.list
