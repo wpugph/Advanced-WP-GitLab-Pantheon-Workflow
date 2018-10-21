@@ -4,7 +4,7 @@ stages:
   - deploy
 
 # image: tetraweb/php
-image: php
+image: 1and1internet/ubuntu-16-php-7.1
 # image: composer
 # image: php
 
@@ -16,7 +16,7 @@ before_script:
   # - apt -y install php7.1-fpm
   # - apt -y install php7.1
   # - apt -y install php7.1-cli php7.1-xml php7.1-mysql
-  - update-alternatives --set php /usr/bin/php7.1
+  # - update-alternatives --set php /usr/bin/php7.1
   - php -v
   - cat /etc/apt/sources.list
   - apt-cache search zip
