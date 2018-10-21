@@ -3,7 +3,8 @@ stages:
   - test
   - deploy
 
-image: tetraweb/php
+# image: tetraweb/php
+image: composer
 
 cache:
   paths:
