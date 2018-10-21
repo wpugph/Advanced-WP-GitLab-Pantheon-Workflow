@@ -10,9 +10,9 @@ cache:
   - vendor/
 
 before_script:
-  - apt-get update
-  - apt-get upgrade
-  - apt-get install git
+  - apt-get -y update
+  - apt-get -y upgrade
+  - apt-get -y install git
   # - apt-get install curl
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
