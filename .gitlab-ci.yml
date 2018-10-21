@@ -13,6 +13,7 @@ cache:
   - vendor/
 
 before_script:
+  - update-alternatives --set php /usr/bin/php7.1
   - php -v
   - cat /etc/apt/sources.list
   - apt-cache search zip
