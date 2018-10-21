@@ -46,7 +46,7 @@ before_script:
   - ssh-add -l
   # - ssh -o "StrictHostKeyChecking no" cgalbert01@gmail.com
   # - ssh -T git@github.com
-  - cd ROOTPWD
+  - cd $ROOTPWD
   - ls
   - php composer.phar install
   - curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
