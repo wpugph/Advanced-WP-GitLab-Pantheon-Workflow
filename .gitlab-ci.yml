@@ -4,7 +4,7 @@ stages:
   - deploy
 
 # image: tetraweb/php
-image: tonisormisson/dev-lemp
+image: php
 # image: composer
 # image: php
 
@@ -13,9 +13,9 @@ cache:
   - vendor/
 
 before_script:
-  - apt -y install php7.1-fpm
-  - apt -y install php7.1
-  - apt -y install php7.1-cli php7.1-xml php7.1-mysql
+  # - apt -y install php7.1-fpm
+  # - apt -y install php7.1
+  # - apt -y install php7.1-cli php7.1-xml php7.1-mysql
   - update-alternatives --set php /usr/bin/php7.1
   - php -v
   - cat /etc/apt/sources.list
