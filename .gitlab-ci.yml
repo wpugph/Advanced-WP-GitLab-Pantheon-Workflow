@@ -109,7 +109,6 @@ prod_deploy:
   - terminus connection:set $PANTHEONSITENAME.dev sftp
   - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
   - echo $CI_COMMIT_MESSAGE
-  'before'"$variable"'after'
   - terminus env:commit --message "$CI_COMMIT_MESSAGE" --force -- $PANTHEONSITENAME.dev
 
   artifacts:
