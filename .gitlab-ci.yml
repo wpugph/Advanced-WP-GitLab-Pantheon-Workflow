@@ -4,13 +4,13 @@ stages:
   - deploy
 
 # image: tetraweb/php
-# image: lynxsolutions/docker-composer-php7.1
+image: lynxsolutions/docker-composer-php7.1
 # image: composer
 # image: php
-image: php:7.0.18-cli
+# image: php:7.0.18-cli #not good for build no git and zip
 
-services:
-  - mysql:latest
+# services:
+#   - mysql:latest
 
 variables:
   MYSQL_DATABASE: wordpress
