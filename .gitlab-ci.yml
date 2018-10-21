@@ -4,9 +4,17 @@ stages:
   - deploy
 
 # image: tetraweb/php
-image: lynxsolutions/docker-composer-php7.1
+# image: lynxsolutions/docker-composer-php7.1
 # image: composer
 # image: php
+image: php:7.0.18-cli
+
+services:
+  - mysql:latest
+
+variables:
+  MYSQL_DATABASE: wordpress
+  MYSQL_ROOT_PASSWORD: wordpress
 
 cache:
   paths:
@@ -58,7 +66,7 @@ before_script:
   - composer global require consolidation/cgr
   - PATH="$(composer config -g home)/vendor/bin:$PATH"
   - echo $PATH
-  - cgr --stability RC pantheon-systems/terminus 1.0.0-alpha2
+  - cgr --stability RC pantheon-systems/terminus
   - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
 
 build:
