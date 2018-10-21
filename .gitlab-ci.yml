@@ -11,6 +11,8 @@ cache:
 
 before_script:
   - apt-get update
+  - apt-get upgrade
+  - apt-get install git
   # - apt-get install curl
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
