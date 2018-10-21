@@ -13,13 +13,14 @@ before_script:
   - apt-get -y update
   - apt-get -y upgrade
   - apt-get -y install git
-  # - apt-get install curl
+  - apt-get -y install zip unzip php7.0-zip
+  - apt-get -y install curl
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
   - php composer.phar install
-  #- curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
-  #- terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
+  - curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
+  - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
 
 build:
   stage: build
