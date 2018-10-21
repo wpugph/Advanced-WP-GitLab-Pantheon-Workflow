@@ -43,7 +43,7 @@ before_script:
   - ls
   - ssh-add /root/.ssh/idrsa
   - ssh-add -l
-  - ssh -o "StrictHostKeyChecking no" user@host
+  - ssh -o "StrictHostKeyChecking no" cgalbert01@gmail.com
   - ssh -T git@github.com
   - php composer.phar install
   - curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
