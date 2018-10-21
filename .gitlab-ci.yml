@@ -11,7 +11,7 @@ cache:
 
 before_script:
   - apt-get update
-  - apt-get install curl
+  # - apt-get install curl
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
@@ -33,7 +33,7 @@ build:
   - eval $(ssh-agent -s)
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - composer update
-  - composer install
+  # - composer install
   allow_failure: true
 
 test:
