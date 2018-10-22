@@ -1,6 +1,7 @@
 stages:
   - test
-  - deploy
+  - wp_build
+  - theme_build_deploy
 
 image: lynxsolutions/docker-composer-php7.1
 
@@ -31,7 +32,18 @@ test:
   - $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*,*.css*
   allow_failure: true
 
-deploy:
+wp_build:
+  stage: wp_build
+  cache:
+    key: bundles
+    paths:
+    - vendor/
+    - web/
+  script:
+  - sh scripts/deploy.sh
+  allow_failure: true
+
+theme_build_deploy:
   stage: deploy
   cache:
     key: bundles
@@ -39,20 +51,7 @@ deploy:
     - vendor/
     - web/
   script:
-  - echo "We need to put the gulp build here and only transfer assets, option for full or partial build!!"
-  - cd $ROOTPWD
-  - export ENV=dev
-  - terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
-  - terminus connection:set $PANTHEONSITENAME.dev sftp
-  - rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/ --exclude=".git*"
-  - rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
-  - rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./vendor/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/ --exclude=".git*"
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/composer/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/composer/ --exclude=".git*"
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/johnpbloch/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/johnpbloch/ --exclude=".git*"
-  - echo $CI_COMMIT_MESSAGE
-  - terminus env:commit --message "GitLab:$CI_COMMIT_MESSAGE" --force -- $PANTHEONSITENAME.$ENV
-  - terminus env:deploy --note "GitLab:$CI_COMMIT_MESSAGE" -- $PANTHEONSITENAME.test
+    - sh scripts/deploy.sh
 
   artifacts:
     paths:
