@@ -8,15 +8,19 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/pantheon-systems/wordpress-composer"
     }
   ],
   "require": {
     "composer/installers": "^1.3.0",
-    "pantheon-systems/quicksilver-pushback": "^1.0",
-    "pantheon-systems/wordpress-composer": "^4.8.2",
+    "pantheon-systems/wordpress-composer": "4.*",
     "roots/wp-password-bcrypt": "^1.0.0",
     "rvtraveller/qs-composer-installer": "^1.1",
-    "vlucas/phpdotenv": "^2.4.0",
+    "vlucas/phpdotenv": "2.*",
+    "wpackagist-plugin/lh-hsts": "^1.24",
     "wpackagist-plugin/pantheon-advanced-page-cache": "^0.1.4",
     "wpackagist-plugin/wp-native-php-sessions": "^0.6.0",
     "wpackagist-theme/twentyseventeen": "^1.1"
@@ -47,5 +51,39 @@
       "web/wp-content/themes/{$name}/": ["type:wordpress-theme"],
       "web/private/scripts/quicksilver/{$name}/": ["type:quicksilver-script"]
     }
+  },
+  "scripts": {
+    "build-assets": [
+      "@prepare-for-pantheon",
+      "composer install --no-dev --no-ansi --no-interaction --optimize-autoloader --no-progress"
+    ],
+    "prepare-for-pantheon": "WordPressProject\\composer\\ScriptHandler::prepareForPantheon",
+    "cleanup": [
+      "./scripts/composer/cleanup-composer"
+    ],
+    "post-install-cmd": [
+      "@cleanup",
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "post-update-cmd": [
+      "@cleanup",
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "post-create-project-cmd": [
+      "@cleanup",
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "code-sniff": [
+      "./vendor/bin/phpcs --extensions=php --runtime-set ignore_warnings_on_exit true --ignore=./web/wp-content/plugins/lh-hsts/* ./web/wp-content"
+    ],
+    "unit-test": [
+      "./vendor/bin/phpunit tests/unit/*"
+    ],
+    "wordhat-scenarios": [
+      "./vendor/bin/behat -dl --config=tests/behat/behat-lando.yml --strict"
+    ],
+    "local-behat": [
+      "./vendor/bin/behat --config=tests/behat/behat-lando.yml --strict"
+    ]
   }
 }
