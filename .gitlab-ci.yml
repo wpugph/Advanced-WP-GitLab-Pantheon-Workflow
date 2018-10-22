@@ -1,5 +1,4 @@
 stages:
-  - build
   - test
   - deploy
 
@@ -17,23 +16,6 @@ cache:
 before_script:
   - sh scripts/before_script.sh
 
-build:
-  stage: build
-  cache:
-    key: bundles
-    paths:
-    - vendor/
-    - web/
-  script:
-  - echo "Building the app"
-  # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  # - mkdir -p ~/.ssh
-  # - eval $(ssh-agent -s)
-  # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  # - composer update
-  # - composer install
-  allow_failure: true
-
 test:
   stage: test
   cache:
@@ -49,7 +31,7 @@ test:
   - $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*,*.css*
   allow_failure: true
 
-test_deploy:
+deploy:
   stage: deploy
   cache:
     key: bundles
@@ -68,17 +50,17 @@ test_deploy:
   - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
   - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/composer/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/composer/ --exclude=".git*"
   - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/johnpbloch/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/johnpbloch/ --exclude=".git*"
-  #- rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/pantheon-systems/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/pantheon-systems/ --exclude=".git*"
   - echo $CI_COMMIT_MESSAGE
   - terminus env:commit --message "GitLab:$CI_COMMIT_MESSAGE" --force -- $PANTHEONSITENAME.$ENV
   - terminus env:deploy --note "GitLab:$CI_COMMIT_MESSAGE" -- $PANTHEONSITENAME.test
 
   artifacts:
     paths:
-    - web
+    - vendor/
+    - web/
     expire_in: 1 week
   environment:
     name: production
-    url: http://dev-carlwpsecuritymu.pantheonsite.io/
+    # url: http://dev-carlwpsecuritymu.pantheonsite.io/
   only:
   - master
