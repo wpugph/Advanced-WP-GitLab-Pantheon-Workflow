@@ -110,6 +110,7 @@ test:
   - ls
   - cd $THEMETOCHECK
   - ls
+  - which phpcs
   - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
   - $PHPCS_DIR/bin/phpcs -i
   - $PHPCS_DIR/bin/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
