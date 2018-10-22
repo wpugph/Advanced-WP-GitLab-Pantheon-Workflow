@@ -1,67 +1,34 @@
-```
-    .+?:
-     .+??.
-       ??? .
-       +???.
-  +?????????=.
-  .???????????.
-  .????????????.
 
- ########### ########
- ############.#######.
- ####### ####  .......
- ######## #### #######
- #########.####.######
- ######  ...
- #######.??.##########
- #######~+??.#########
- ########.??..
- #########.??.#######.
- #########.+?? ######.
-           .+?.
-     .????????????.
-       +??????????,
-        .????++++++.
-          ????.
-          .???,
-           .~??.
-             .??
-              .?,.
-```
 ---
-# Advanced WordPress on Pantheon
+# WordPress Composer & Gitlab on Pantheon
+
+Fork of [Advanced WordPress on Pantheon by Andrew Taylor](https://github.com/ataylorme/Advanced-WordPress-on-Pantheon) so it can work on GitLab, minimizing separate accounts
 
 ## Purpose
-This repository is an extension of [pantheon-systems/example-wordpress-composer](https://github.com/pantheon-systems/example-wordpress-composer/) 
-showning an example of an advanced WordPress 
-deployment workflow on Pantheon integrating tools such as:
+
 * Local development environment with [Lando](https://docs.devwithlando.io/)
 * Asset compilation with [gulp](https://gulpjs.com/) 4
 * PHP dependency management with [Composer](https://getcomposer.org/)
-* Build and testing processes run on [CircleCI 2.0](https://circleci.com/)
-* Unit tests with [PHP Unit](https://phpunit.de/)
-* [Behat](http://behat.org/en/latest/) testing with [WordHat](https://github.com/paulgibbs/behat-wordpress-extension/)
+* Source control, build and testing processes run all in [GitLab](https://gitlab.com/)
 * Enforced [WordPress coding standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) with [PHP code sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-* Performance testing with [Lighthouse](https://developers.google.com/web/tools/lighthouse/)
-* Visual regression testing with [BackstopJS](https://github.com/garris/BackstopJS/)
 
-## Deprecated Branch
-The old version of this example used CircleCI 1.0 and did a lot of steps that the [Terminus build tools plugin](https://github.com/pantheon-systems/terminus-build-tools-plugin/) now does manually. This has been deprecated in favor of an example based on CircleCI 2.0 and [Example WordPress Composer](https://github.com/pantheon-systems/example-wordpress-composer/). The [circle-ci-1](https://github.com/ataylorme/Advanced-WordPress-on-Pantheon/tree/circle-ci-1) branch has this version archived for reference only.
+## GitLab Setup Setup
+You will need to add the following environment variables your project's GitLab UI. See [GitLab Environment Variables](https://gitlab.com/help/ci/variables/README#variables)/ for details.
 
-## CircleCI Setup
-You will need to add the following environment variables in the CircleCI UI. See [https://circleci.com/docs/2.0/environment-variables](https://circleci.com/docs/2.0/environment-variables/)/ for details.
+* `PANTHEONSITENAME`:  Name of the Pantheon site to run tests on, e.g. my_site
+* `MACHINETOKEN`: The Pantheon machine token https://pantheon.io/docs/machine-tokens/
+* `EMAIL`:      The email address to use when making commits
+* `SITE`: The SITE UUID https://pantheon.io/docs/sites/#site-uuid
+* `STAGING_PRIVATE_KEY`: Ssh private key so your runners can ssh to Pantheon for the compiled assets. Create you public key here and add to Pantheon https://pantheon.io/docs/ssh-keys/. You need private key added in this variable.
 
-* `TERMINUS_SITE`:  Name of the Pantheon site to run tests on, e.g. my_site
-* `TERMINUS_TOKEN`: The Pantheon machine token
-* `GITHUB_TOKEN`:   The GitHub personal access token
-* `GIT_EMAIL`:      The email address to use when making commits
-* `TEST_SITE_NAME`: The name of the test site to provide when installing.
-* `ADMIN_PASSWORD`: The admin password to use when installing.
-* `ADMIN_EMAIL`:    The email address to give the admin when installing.
+## Getting Started
+1) Create WP Pantheon site
+2) Clone this repo into Gitlab
+3) Setup the GitLab environment variables in your project
+4) Run composer update to run locally.
 
-## Local Setup
-In order to develop the site locally a few steps need to be completed. 
-These steps only need to be performed once, unless noted. 
+In order to develop the site locally a few steps need to be completed.
+These steps only need to be performed once, unless noted.
 
 * Open a terminal
 * Checkout the Git repository
@@ -85,21 +52,17 @@ Tests can also be run locally on Lando with the commands below:
 * `lando composer local-behat`
 * `lando composer unit-test`
 
-### Using another local development environment
-All of these steps are a one-time step unless noted.
+### Prerequisites
 
 * Install [Composer](https://getcomposer.org) if not already installed
 * Install [NodeJS](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/) if not already installed
-* Copy `sample.env` to `.env` and update the values accordingly
-* Run `./bin/install-composer-dependencies.sh` to install PHP dependencies with Composer
-    - `composer update` will need to be ran if `composer.json` has been changed
-* Run `./.circleci/build-gulp-assets.sh` to compile theme assets
+
 
 ### Updates and file changes
 ** Note: ** if you are using Lando for local development prefix all of the commands below with `lando ` to run them on Lando instead of your local system. For example, `npm run dev` would become `lando npm run dev`.
 
 * `composer update` will need to be ran after any changes to `composer.json`
-    - Any non-custom PHP code, including to WordPress core, new plugins, etc., should be managed with Composer and updated in this way.
+    - Any non-custom PHP code, including to WordPress core, new plugins, etc., should be managed with Composer and updated in this way and avoid touching anything in the DEV environment.
 * `npm run gulp` will need to be ran in `web/wp-content/themes/twentyseventeen-child` after any changes to `web/wp-content/themes/twentyseventeen-child/source` files
     - `npm run watch` can be used to build the production CSS and JavaScript files, watch for changes in the source files, and rebuild the production files after a change.
     - `npm run dev` is the same as above but it also starts a [BrowserSync](https://browsersync.io/) instance for automated reloading. Be sure to update the `url` export in `web/wp-content/themes/twentyseventeen-child/gulp/constants.js` with your local development URL. Unless you are using Lando, in which case leave it set to `https://nginx/`.
