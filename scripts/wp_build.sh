@@ -4,6 +4,8 @@ set -ex
 
 echo "This is where wp core and plugins are built and deployed"
 export ENV=dev
+ls
+pwd
 terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
 terminus connection:set $PANTHEONSITENAME.dev sftp
 rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/ --exclude=".git*"
