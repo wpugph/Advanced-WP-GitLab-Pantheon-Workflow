@@ -10,6 +10,7 @@ export THEMEIGNORE=*gulpfile.js*,*/assets/*,*.css*,*/gulp*.js
 cd vendor
 cd squizlabs
 cd php_codesniffer
+cd bin
 ls
 #cd $PHPCS_DIR/phpcs
 #phpcs -i
