@@ -14,6 +14,7 @@ vendor/
 !.travis.yml
 !.circleci
 !.lando.yml
+!.gitlab-ci.yml
 
 # NPM Modules #
 ###############
@@ -112,6 +113,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 ._*
+
 
 # Vim generated files #
 ######################

@@ -67,7 +67,7 @@ before_script:
   - PATH="$(composer config -g home)/vendor/bin:$PATH"
   - echo $PATH
   - cgr --stability RC pantheon-systems/terminus
-  - terminus auth:login --machine-token=AAAaK3l5NUvdPb8Aj_cmXsPLiKfBqKSfHjxhsYTj9lyob --email=carl.alberto@getpantheon.com
+  - terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
 
 build:
   stage: build
