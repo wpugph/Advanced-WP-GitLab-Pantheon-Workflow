@@ -96,6 +96,10 @@ test:
   script:
   # - pwd
   # - ls
+  - cd $ROOTPWD
+  - ls
+  - cd vendor
+  - ls
   - export PHPCS_DIR=vendor/squizlabs/php_codesniffer
   - export SNIFFS_DIR=vendor/wp-coding-standards/wpcs
   - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
