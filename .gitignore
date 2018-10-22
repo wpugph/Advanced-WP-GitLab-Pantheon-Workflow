@@ -5,6 +5,11 @@
 # Composer Vendor Directory #
 #############################
 vendor/
+!vendor/composer
+!vendor/johnpbloch
+!vendor/pantheon-systems
+!vendor/autoload.php
+
 
 # Hidden Files #
 ################
