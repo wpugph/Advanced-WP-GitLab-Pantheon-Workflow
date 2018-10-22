@@ -19,7 +19,7 @@ cd $ROOTPWD/$WPTHEME
 terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
 terminus connection:set $PANTHEONSITENAME.dev sftp
 
-rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./$WPTHEME/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/$WPTHEME/ --exclude='*.git*' --exclude $THEMEEXCLUDE --exclude $THEMEEXCLUDEFILES
+rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./$WPTHEME/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/$WPTHEME/ --exclude='*.git*' --exclude node_modules/ --exclude gulp/ --exclude source/ --exclude $THEMEEXCLUDEFILES
 
 terminus env:commit --message $THEMEBUILDMSG --force -- $PANTHEONSITENAME.$ENV
 terminus env:deploy --note $THEMEBUILDMSG -- $PANTHEONSITENAME.test
