@@ -43,9 +43,9 @@ web/wp-content/mu-plugins/*
 !web/wp-content/mu-plugins/alter-wpcfm-config-path.php
 !web/wp-content/plugins/
 web/wp-content/plugins/*
-!web/wp-content/themes
-web/wp-content/themes/*
-!web/wp-content/themes/twentyseventeen-child/
+#!web/wp-content/themes
+#web/wp-content/themes/*
+#!web/wp-content/themes/twentyseventeen-child/
 !web/private/
 web/private/*
 !web/private/config/
