@@ -2,9 +2,12 @@
 
 set -ex
 
-npm install -g npm@latest
-npm install -g gulp
-npm install
+cd $ROOTPWD
+wget -qO- https://deb.nodesource.com/setup_10.x | sudo -E bash -
+apt-get install -y nodejs
+# npm install -g npm@latest
+# npm install -g gulp
+# npm install
 
 echo "This is where wp theme assets are built and deployed"
 export THEMEBUILDMSG="GitLab WP theme build:$CI_COMMIT_MESSAGE"
