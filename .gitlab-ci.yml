@@ -47,7 +47,7 @@ theme_build_deploy:
     - vendor/
     - web/
   script:
-    - sh scripts/deploy.sh
+    - sh scripts/theme_build_deploy.sh
 
   artifacts:
     paths:
