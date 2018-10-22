@@ -3,7 +3,6 @@
 set -ex
 
 echo "This is where wp core and plugins are built and deployed"
-cd $ROOTPWD
 export ENV=dev
 terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
 terminus connection:set $PANTHEONSITENAME.dev sftp

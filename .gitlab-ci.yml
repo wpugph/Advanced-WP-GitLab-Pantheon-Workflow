@@ -40,7 +40,8 @@ wp_build:
     - vendor/
     - web/
   script:
-  - sh scripts/deploy.sh
+  - cd $ROOTPWD
+  - sh scripts/wp_build.sh
   allow_failure: true
 
 theme_build_deploy:
