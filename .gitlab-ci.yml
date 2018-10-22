@@ -3,14 +3,7 @@ stages:
   - test
   - deploy
 
-# image: tetraweb/php
 image: lynxsolutions/docker-composer-php7.1
-# image: composer
-# image: php
-# image: php:7.0.18-cli #not good for build no git and zip
-
-# services:
-#   - mysql:latest
 
 variables:
   MYSQL_DATABASE: wordpress
@@ -22,53 +15,7 @@ cache:
   - web/
 
 before_script:
-  # - apt -y install php7.1-fpm
-  # - apt -y install php7.1
-  # - apt -y install php7.1-cli php7.1-xml php7.1-mysql
-  # - update-alternatives --set php /usr/bin/php7.1
-  - php -v
-  - cat /etc/apt/sources.list
-  - apt-cache search zip
-  # - apt-get -y update
-  #- apt-get -y upgrade
-  - apt-get -y install git
-  # - apt-get -y install unzip php7.0-zip
-  - apt-get -y install curl
-  # - apt-get purge libzip4
-  #- apt-get install --yes gzip
-  #- apt-get install --yes libzip4
-  #- apt-get -y install php-zip
-  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  - php composer-setup.php
-  - php -r "unlink('composer-setup.php');"
-  - echo "Preparing build for deploy"
-  - ls
-  - pwd
-  - ROOTPWD=`pwd`
-  - echo $ROOTPWD
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  - touch /root/.ssh/idrsa
-  - echo "$STAGING_PRIVATE_KEY" > /root/.ssh/idrsa
-  - chmod 400 /root/.ssh/idrsa
-  - cd /root/.ssh/
-  - ls
-  - ssh-add /root/.ssh/idrsa
-  - ssh-add -l
-  # - ssh -o "StrictHostKeyChecking no" cgalbert01@gmail.com
-  # - ssh -T git@github.com
-  - cd $ROOTPWD
-  - ls
-  - php composer.phar install
-  #  - curl -O https://raw.githubusercontent.com/pantheon-systems/terminus-installer/master/builds/installer.phar && php installer.phar install
-  # - PATH="$ROOTPWD/vendor/bin:$PATH"
-  - composer global require consolidation/cgr
-  - PATH="$(composer config -g home)/vendor/bin:$PATH"
-  - echo $PATH
-  - cgr --stability RC pantheon-systems/terminus
-  - terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
+  - sh scripts/before_script.sh
 
 build:
   stage: build
@@ -95,29 +42,14 @@ test:
     - vendor/
     - web/
   script:
-  # - pwd
-  # - ls
-  - export THEMETOCHECK=$ROOTPWD/web/wp-content/themes/twentyseventeen
-  #- export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer/scripts #for phpcs v <3
+  - export THEMETOCHECK=$ROOTPWD/web/wp-content/themes/twentyseventeen-child
   - export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer/bin #phpcs v >3
   - export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
-  # - cd $ROOTPWD
-  # - ls
-  # - cd vendor
-  # - ls
-  # - cd $PHPCS_DIR
-  # - ls
-  # - cd $SNIFFS_DIR
-  # - ls
-  # - cd $THEMETOCHECK
-  # - ls
-  # - which phpcs
   - $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR
-  - $PHPCS_DIR/phpcs -i
   - $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*,*.css*
   allow_failure: true
 
-prod_deploy:
+test_deploy:
   stage: deploy
   cache:
     key: bundles
@@ -125,36 +57,9 @@ prod_deploy:
     - vendor/
     - web/
   script:
-
-  # - cd $ROOTPWD/wordpress/wp-content/themes/jnetics
-  # - npm install -g npm@latest
-  # - npm install -g gulp bower
-  # - npm install
-  # - bower install --allow-root
-  # - gulp --production
-  # - ls assets/css
   - echo "We need to put the gulp build here and only transfer assets, option for full or partial build!!"
-  # - cd $ROOTPWD
-  # - ROOTPWD=$PWD
-  # - echo $ROOTPWD
-  # - cat /root/.ssh/idrsa
   - cd $ROOTPWD
-  - ls
-  # - rm wordpress/wp-content/themes/jnetics/bower_components -R
-  # - rm wordpress/wp-content/themes/jnetics/node_modules -R
-  # - rm wordpress/wp-content/themes/jnetics/src -R
-  # - rm wordpress/wp-content/themes/jnetics/.editorconfig -R
-  # - rm wordpress/wp-content/themes/jnetics/gulpfile.js -R
-  # - rm wordpress/wp-content/themes/jnetics/*.json -R
-  # - scp -P 7822 -C -i /root/.ssh/idrsa -r web/app/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes
-  # - rsync -avzh -e "ssh -p 7822" wordpress/wp-content/themes/jnetics jneticsmlawebdes@jnetics.mlawebdesigns.co.uk:public_html/wp-content/themes --ignore-times
-  # https://pantheon.io/docs/rsync-and-sftp/
   - export ENV=dev
-  # Usually dev, test, or live
-  # - export SITE=7ddc28e0-e776-449d-adde-ed0b51d14220
-  # Site UUID from dashboard URL: https://dashboard.pantheon.io/sites/[uuid]
-
-  # To Upload/Import
   - terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
   - terminus connection:set $PANTHEONSITENAME.dev sftp
   - rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/ --exclude=".git*"
