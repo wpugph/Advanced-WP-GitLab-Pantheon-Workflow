@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 /**
  * TwentySeventeen Child Theme Functions
  * Version: 0.0.1
@@ -18,7 +19,7 @@ namespace twenty_seventeen_child_theme;
  *
  * @return void
  */
-function Enqueue_Scripts_styles() 
+function Enqueue_Scripts_styles()
 {
 
     $js_deps   = array();
@@ -26,22 +27,22 @@ function Enqueue_Scripts_styles()
     $js_deps[] = 'jquery';
 
     wp_dequeue_style('twentyseventeen-style');
-    
+
     wp_enqueue_style(
-        'twentyseventeen-style', 
+        'twentyseventeen-style',
         get_template_directory_uri() . '/style.css'
     );
 
     wp_enqueue_style(
-        'twentyseventeen-child', 
+        'twentyseventeen-child',
         get_stylesheet_directory_uri() . '/assets/css/twentyseventeen-child.min.css'
     );
 
     wp_enqueue_script(
-        'twentyseventeen-child', 
-        get_stylesheet_directory_uri() . '/assets/js/twentyseventeen-child.min.js', 
-        $js_deps, 
-        false, 
+        'twentyseventeen-child',
+        get_stylesheet_directory_uri() . '/assets/js/twentyseventeen-child.min.js',
+        $js_deps,
+        false,
         true
     );
 

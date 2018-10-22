@@ -15,6 +15,7 @@ cache:
   - web/
 
 before_script:
+  - ROOTPWD=`pwd`
   - mkdir -p ~/.ssh
   - eval $(ssh-agent -s)
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
