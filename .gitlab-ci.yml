@@ -98,7 +98,7 @@ test:
   # - pwd
   # - ls
   - export THEMETOCHECK=$ROOTPWD/web/wp-content/themes/twentyseventeen
-  - export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer
+  - export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer/scripts
   - export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
   - cd $ROOTPWD
   - ls
@@ -110,10 +110,10 @@ test:
   - ls
   - cd $THEMETOCHECK
   - ls
-  - which phpcs
-  - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
-  - $PHPCS_DIR/bin/phpcs -i
-  - $PHPCS_DIR/bin/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
+  # - which phpcs
+  - $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR
+  - $PHPCS_DIR/phpcs -i
+  - $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
   allow_failure: true
 
 prod_deploy:
