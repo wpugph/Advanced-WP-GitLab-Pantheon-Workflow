@@ -104,7 +104,7 @@ test:
   - export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
   - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
   - $PHPCS_DIR/bin/phpcs -i
-  - $PHPCS_DIR/bin/phpcs -p wordpress/wp-content/themes/jnetics --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
+  - $PHPCS_DIR/bin/phpcs -p web/wp-content/themes/twentyseventeen --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
   allow_failure: true
 
 prod_deploy:
@@ -141,7 +141,7 @@ prod_deploy:
   # https://pantheon.io/docs/rsync-and-sftp/
   - export ENV=dev
   # Usually dev, test, or live
-  - export SITE=559216e4-889e-4d78-92f1-36e45a7318a9
+  # - export SITE=7ddc28e0-e776-449d-adde-ed0b51d14220
   # Site UUID from dashboard URL: https://dashboard.pantheon.io/sites/[uuid]
 
   # To Upload/Import
