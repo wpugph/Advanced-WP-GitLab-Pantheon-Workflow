@@ -100,8 +100,8 @@ test:
   - ls
   - cd vendor
   - ls
-  - export PHPCS_DIR=vendor/squizlabs/php_codesniffer
-  - export SNIFFS_DIR=vendor/wp-coding-standards/wpcs
+  - export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer
+  - export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
   - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
   - $PHPCS_DIR/bin/phpcs -i
   - $PHPCS_DIR/bin/phpcs -p wordpress/wp-content/themes/jnetics --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
@@ -149,7 +149,7 @@ prod_deploy:
   - terminus connection:set $PANTHEONSITENAME.dev sftp
   - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
   - echo $CI_COMMIT_MESSAGE
-  - terminus env:commit --message "GitLab:$CI_COMMIT_MESSAGE" --force -- $PANTHEONSITENAME.dev
+  - terminus env:commit --message "GitLab:$CI_COMMIT_MESSAGE" --force -- $PANTHEONSITENAME.$ENV
 
   artifacts:
     paths:
