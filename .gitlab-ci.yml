@@ -44,7 +44,7 @@ wp_build:
   allow_failure: true
 
 theme_build_deploy:
-  stage: deploy
+  stage: theme_build_deploy
   cache:
     key: bundles
     paths:
