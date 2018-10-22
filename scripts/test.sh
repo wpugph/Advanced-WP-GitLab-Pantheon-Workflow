@@ -8,5 +8,7 @@ export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
 export THEMEIGNORE=*gulpfile.js*,*/assets/*,*.css*,*/gulp*.js
 cd $PHPCS_DIR/phpcs
 ls
+phpcs -i
+phpcs --config-set installed_paths $SNIFFS_DIR
 $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR
 $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=$THEMEIGNORE
