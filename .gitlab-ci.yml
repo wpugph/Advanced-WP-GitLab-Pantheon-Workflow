@@ -75,8 +75,8 @@ build:
   cache:
     key: bundles
     paths:
-    - web
-    - app
+    - vendor/
+    - web/
   script:
   - echo "Building the app"
   # - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -92,28 +92,28 @@ test:
   cache:
     key: bundles
     paths:
-    - web
-    - app
+    - vendor/
+    - web/
   script:
   # - pwd
   # - ls
   - export THEMETOCHECK=$ROOTPWD/web/wp-content/themes/twentyseventeen
   - export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer/scripts
   - export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
-  - cd $ROOTPWD
-  - ls
-  - cd vendor
-  - ls
-  - cd $PHPCS_DIR
-  - ls
-  - cd $SNIFFS_DIR
-  - ls
-  - cd $THEMETOCHECK
-  - ls
+  # - cd $ROOTPWD
+  # - ls
+  # - cd vendor
+  # - ls
+  # - cd $PHPCS_DIR
+  # - ls
+  # - cd $SNIFFS_DIR
+  # - ls
+  # - cd $THEMETOCHECK
+  # - ls
   # - which phpcs
   - $PHPCS_DIR/phpcs --config-set installed_paths $SNIFFS_DIR
   - $PHPCS_DIR/phpcs -i
-  - $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*
+  - $PHPCS_DIR/phpcs -p $THEMETOCHECK --standard=WordPress --ignore=*gulpfile.js*,*/assets/*,*.css*
   allow_failure: true
 
 prod_deploy:
@@ -121,8 +121,8 @@ prod_deploy:
   cache:
     key: bundles
     paths:
-    - web
-    - app
+    - vendor/
+    - web/
   script:
 
   # - cd $ROOTPWD/wordpress/wp-content/themes/jnetics
@@ -159,11 +159,12 @@ prod_deploy:
   - rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/ --exclude=".git*"
   - rsync -Lvz --size-only --ipv4 -a --delete --progress -e 'ssh -p 2222' ./vendor/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/ --exclude=".git*"
   - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/ --exclude=".git*"
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/composer/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/vendor/composer/ --exclude=".git*"
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/johnpbloch/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/vendor/johnpbloch/ --exclude=".git*"
-  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/pantheon-systems/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/web/vendor/pantheon-systems/ --exclude=".git*"
+  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/composer/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/composer/ --exclude=".git*"
+  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/johnpbloch/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/johnpbloch/ --exclude=".git*"
+  - rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/pantheon-systems/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/pantheon-systems/ --exclude=".git*"
   - echo $CI_COMMIT_MESSAGE
   - terminus env:commit --message "GitLab:$CI_COMMIT_MESSAGE" --force -- $PANTHEONSITENAME.$ENV
+  - terminus env:deploy --note "GitLab:$CI_COMMIT_MESSAGE" -- $PANTHEONSITENAME.$ENV
 
   artifacts:
     paths:
