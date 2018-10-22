@@ -8,8 +8,8 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 ROOTPWD=`pwd`
 # 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-mkdir -p ~/.ssh
-eval $(ssh-agent -s)
+# mkdir -p ~/.ssh
+# eval $(ssh-agent -s)
 # echo "[[ -f /.dockerenv ]]" > ~/.ssh/config
 # echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
 # '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
