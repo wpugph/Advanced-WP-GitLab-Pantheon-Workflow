@@ -19,6 +19,7 @@ variables:
 cache:
   paths:
   - vendor/
+  - web/
 
 before_script:
   # - apt -y install php7.1-fpm
@@ -103,11 +104,11 @@ test:
   - ls
   - cd vendor
   - ls
-  - cd PHPCS_DIR
+  - cd $PHPCS_DIR
   - ls
-  - cd SNIFFS_DIR
+  - cd $SNIFFS_DIR
   - ls
-  - cd THEMETOCHECK
+  - cd $THEMETOCHECK
   - ls
   - $PHPCS_DIR/bin/phpcs --config-set installed_paths $SNIFFS_DIR
   - $PHPCS_DIR/bin/phpcs -i
