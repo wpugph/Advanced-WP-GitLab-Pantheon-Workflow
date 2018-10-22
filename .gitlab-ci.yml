@@ -30,6 +30,7 @@ test:
     - vendor/
     - web/
   script:
+  - cd $ROOTPWD
   - sh scripts/test.sh
   allow_failure: true
 
@@ -53,6 +54,7 @@ theme_build_deploy:
     - vendor/
     - web/
   script:
+    - cd $ROOTPWD
     - sh scripts/theme_build_deploy.sh
 
   artifacts:
