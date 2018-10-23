@@ -4,7 +4,8 @@
 set -ex
 
 cd $ROOTPWD
-wget -qO- https://deb.nodesource.com/setup_10.x | sudo -E bash -
+ls
+wget -qO- https://deb.nodesource.com/setup_10.x | -E bash -
 apt-get install -y nodejs
 # npm install -g npm@latest
 # npm install -g gulp
