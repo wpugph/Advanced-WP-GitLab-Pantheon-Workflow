@@ -4,6 +4,7 @@
 # TODO: minification process to clean assets
 set -ex
 
+ROOTPWD=`pwd`
 echo $ROOTPWD
 cd $ROOTPWD
 ls

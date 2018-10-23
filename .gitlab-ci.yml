@@ -54,7 +54,6 @@ theme_build_deploy:
     - vendor/
     - web/
   script:
-    - ROOTPWD=`pwd`
     - sh scripts/theme_build_deploy.sh
 
   artifacts:
