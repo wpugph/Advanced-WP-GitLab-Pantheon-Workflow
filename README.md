@@ -12,7 +12,7 @@ Fork of [Advanced WordPress on Pantheon by Andrew Taylor](https://github.com/ata
 * Source control, build and testing processes run all in [GitLab](https://gitlab.com/)
 * Enforced [WordPress coding standards](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) with [PHP code sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
 
-## GitLab Setup Setup
+## GitLab Setup
 You will need to add the following environment variables your project's GitLab UI. See [GitLab Environment Variables](https://gitlab.com/help/ci/variables/README#variables)/ for details.
 
 * `PANTHEONSITENAME`:  Name of the Pantheon site to run tests on, e.g. my_site
@@ -22,19 +22,14 @@ You will need to add the following environment variables your project's GitLab U
 * `STAGING_PRIVATE_KEY`: Ssh private key so your runners can ssh to Pantheon for the compiled assets. Create you public key here and add to Pantheon https://pantheon.io/docs/ssh-keys/. You need private key added in this variable.
 
 ## Getting Started
-1) Create WP Pantheon site
-2) Clone this repo into Gitlab
-3) Setup the GitLab environment variables in your project
-4) Run composer update to run locally.
-
-In order to develop the site locally a few steps need to be completed.
-These steps only need to be performed once, unless noted.
-
-* Open a terminal
-* Checkout the Git repository
-* Enter the Git docroot
+1) Create WP Pantheon site. Setup all the variables from the GitLab setup.
+2) Clone this repo into Gitlab and clone locally.
+3) Setup the GitLab environment variables in your project.
+4) Run composer update to run locally.(Local development still in works)
+5) Git commit and push your changes, when all is setuped correctly, your CI runners will push the wp core, plugins and themes defined in the composer files. For the custom theme/plugin, it will also compile your assets and Git Commit them to Pantheon in DEV and TEST environments.
 
 ## Local Development
+TODO: Create a local development environment workflow that with fit in this deployment process
 
 ### Using Lando as a local development environment
 First, take care of the one-time setup steps below:

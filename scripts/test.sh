@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Set thist to check your custom plugin if it passes WPCS uncompiled
 set -ex
 ls
 #phpcs -i
@@ -9,7 +9,7 @@ echo $ROOTPWD
 export THEMETOCHECK=$ROOTPWD/web/wp-content/themes/twentyseventeen-child
 export PHPCS_DIR=$ROOTPWD/vendor/squizlabs/php_codesniffer/bin #phpcs v >3
 export SNIFFS_DIR=$ROOTPWD/vendor/wp-coding-standards/wpcs
-export THEMEIGNORE=*gulpfile.js*,*/assets/*,*.css*,*/gulp*.js
+export THEMEIGNORE=*gulpfile.js*,*/assets/*,*.css*,*/gulp*.js,*.js*
 cd vendor
 cd squizlabs
 cd php_codesniffer
