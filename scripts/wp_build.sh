@@ -2,11 +2,9 @@
 # When PHPCS pass, this will build your composer assets for wp core and plugins and deploy it to Pantheon, you can skip this part if there are no changed in plugins and core
 set -ex
 
-echo "This is where wp core and plugins are built and deployed"
 export BUILDMSG="GitLab WP build:$CI_COMMIT_MESSAGE"
 export ENV=dev
-ls
-pwd
+
 terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
 terminus connection:set $PANTHEONSITENAME.dev sftp
 

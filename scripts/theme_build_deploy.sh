@@ -1,5 +1,6 @@
 #!/bin/bash
 # When PHPCS passes uncompiled, this process will compile your custom theme/plugin then compile them and push the compiled assets only to Pantheon, don't forget to update this file with your theme's/plugin's correct path
+
 # TODO: minification process
 set -ex
 
