@@ -30,7 +30,9 @@ npm install -g npm@latest
 npm install -g gulp
 npm install
 npm run gulp
+ls
 
+cd $ROOTPWD
 terminus auth:login --machine-token=$MACHINETOKEN --email=$EMAIL
 terminus connection:set $PANTHEONSITENAME.dev sftp
 
