@@ -1,6 +1,6 @@
 stages:
-  - test
-  - wp_build
+  #- test
+  #- wp_build
   - theme_build_deploy
 
 image: lynxsolutions/docker-composer-php7.1

@@ -5,7 +5,8 @@ set -ex
 
 cd $ROOTPWD
 ls
-wget -qO- https://deb.nodesource.com/setup_10.x | apt-get install -y nodejs
+# wget -qO- https://deb.nodesource.com/setup_10.x | apt-get install -y nodejs #E: Unable to locate package nodejs
+wget -qO- https://deb.nodesource.com/setup_10.x | bash -
 # npm install -g npm@latest
 # npm install -g gulp
 # npm install
