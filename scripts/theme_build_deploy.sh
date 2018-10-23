@@ -1,5 +1,5 @@
 #!/bin/bash
-# When PHPCS passes uncompiled, this process will compile your custom theme/plugin then compile them and push the compiled assets only to Pantheon
+# When PHPCS passes uncompiled, this process will compile your custom theme/plugin then compile them and push the compiled assets only to Pantheon, don't forget to update this file with your theme's/plugin's correct path
 # TODO: minification process
 set -ex
 
@@ -7,6 +7,7 @@ cd $ROOTPWD
 ls
 # wget -qO- https://deb.nodesource.com/setup_10.x | apt-get install -y nodejs #E: Unable to locate package nodejs
 wget -qO- https://deb.nodesource.com/setup_10.x | bash -
+apt-get install -y nodejs
 npm install -g npm@latest
 npm install -g gulp
 npm install
