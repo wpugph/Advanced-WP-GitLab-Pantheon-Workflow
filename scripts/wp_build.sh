@@ -20,5 +20,5 @@ rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./web/. --temp-dir=~/
 rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/composer/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/composer/ --exclude="*.git*"
 rsync -rLvz --size-only --ipv4 --progress -e 'ssh -p 2222' ./vendor/johnpbloch/. --temp-dir=~/tmp/ $ENV.$SITE@appserver.$ENV.$SITE.drush.in:code/vendor/johnpbloch/ --exclude="*.git*"
 
-terminus env:commit --message $BUILDMSG --force -- $PANTHEONSITENAME.$ENV
+terminus env:commit --message "$BUILDMSG" --force -- $PANTHEONSITENAME.$ENV
 #terminus env:deploy --note "GitLab:$BUILDMSG" -- $PANTHEONSITENAME.test
