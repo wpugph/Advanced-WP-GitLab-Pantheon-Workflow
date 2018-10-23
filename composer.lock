@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a4c7586d14e96a270a1a2b3b043916a",
+    "content-hash": "f931023e09aae360dd47cd27db57fc4f",
     "packages": [
         {
             "name": "composer/installers",
@@ -432,6 +432,26 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-native-php-sessions/"
+        },
+        {
+            "name": "wpackagist-theme/bootstrapfast",
+            "version": "1.0.6",
+            "source": {
+                "type": "svn",
+                "url": "https://themes.svn.wordpress.org/bootstrapfast/",
+                "reference": "1.0.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/theme/bootstrapfast.1.0.6.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-theme",
+            "homepage": "https://wordpress.org/themes/bootstrapfast/"
         },
         {
             "name": "wpackagist-theme/twentyseventeen",

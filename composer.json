@@ -24,7 +24,8 @@
     "wpackagist-plugin/pantheon-advanced-page-cache": "^0.1.4",
     "wpackagist-plugin/wp-native-php-sessions": "^0.6.0",
     "wpackagist-plugin/query-monitor": "^3.1.1",
-    "wpackagist-theme/twentyseventeen": "^1.1"
+    "wpackagist-theme/twentyseventeen": "^1.7",
+    "wpackagist-theme/bootstrapfast": "^1.0.6"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",

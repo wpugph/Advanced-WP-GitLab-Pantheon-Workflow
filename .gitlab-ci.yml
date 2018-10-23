@@ -54,7 +54,7 @@ theme_build_deploy:
     - vendor/
     - web/
   script:
-    - cd $ROOTPWD
+    - ROOTPWD=`pwd`
     - sh scripts/theme_build_deploy.sh
 
   artifacts:
@@ -64,6 +64,5 @@ theme_build_deploy:
     expire_in: 1 week
   environment:
     name: production
-    # url: http://dev-carlwpsecuritymu.pantheonsite.io/
   only:
   - master

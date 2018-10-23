@@ -52,6 +52,20 @@ web/private/*
 !web/private/scripts/
 web/private/scripts/quicksilver
 
+#!web/wp-content/themes/
+#web/wp-content/themes/*
+#!web/wp-content/themes/bootstrapfast-child/
+#!web/wp-content/themes/bootstrapfast-child/*
+#web/wp-content/themes/bootstrapfast-child/node_modules/
+#web/wp-content/themes/bootstrapfast-child/assets
+
+!web/wp-content/themes/
+web/wp-content/themes/*
+!web/wp-content/themes/twentyseventeen-child/
+!web/wp-content/themes/twentyseventeen-child/*
+web/wp-content/themes/twentyseventeen-child/node_modules/
+web/wp-content/themes/twentyseventeen-child/assets
+
 # Add directories containing build assets below.
 # Keep all additions above the "cut" line.
 
