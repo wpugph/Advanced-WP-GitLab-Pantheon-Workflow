@@ -1,9 +1,10 @@
 stages:
   - test
-  - wp_build
-  - theme_build_deploy
+  # - wp_build
+  # - theme_build_deploy
 
-image: lynxsolutions/docker-composer-php7.1
+#image: lynxsolutions/docker-composer-php7.1
+image: carlalberto/wpbuild1
 
 variables:
   MYSQL_DATABASE: wordpress
@@ -16,9 +17,9 @@ cache:
 
 before_script:
   - ROOTPWD=`pwd`
-  - mkdir -p ~/.ssh
-  - eval $(ssh-agent -s)
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - mkdir -p ~/.ssh #ok
+  - eval $(ssh-agent -s) #ok
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )' #ok
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - sh scripts/before_script.sh
 
@@ -32,29 +33,31 @@ test:
   script:
   - cd $ROOTPWD
   - sh scripts/test.sh
-  allow_failure: true
-
-wp_build:
-  stage: wp_build
-  cache:
-    key: bundles
-    paths:
-    - vendor/
-    - web/
-  script:
-  - cd $ROOTPWD
   - sh scripts/wp_build.sh
+  - sh scripts/theme_build_deploy.sh
   allow_failure: true
 
-theme_build_deploy:
-  stage: theme_build_deploy
-  cache:
-    key: bundles
-    paths:
-    - vendor/
-    - web/
-  script:
-    - sh scripts/theme_build_deploy.sh
+# wp_build:
+#   stage: wp_build
+#   cache:
+#     key: bundles
+#     paths:
+#     - vendor/
+#     - web/
+#   script:
+#   - cd $ROOTPWD
+#   - sh scripts/wp_build.sh
+#   allow_failure: true
+#
+# theme_build_deploy:
+#   stage: theme_build_deploy
+#   cache:
+#     key: bundles
+#     paths:
+#     - vendor/
+#     - web/
+#   script:
+#     - sh scripts/theme_build_deploy.sh
 
   artifacts:
     paths:
